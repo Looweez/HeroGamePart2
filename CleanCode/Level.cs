@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CleanCode
 {
-    enum Direction
+    public enum Direction
     {
         Up = 0,
         Down = 1,
@@ -20,6 +20,7 @@ namespace CleanCode
     {
         public Tile[,] tiles;
 
+        private PickupTile[] pickups;
         private int width;
         private int height;
 
@@ -37,12 +38,17 @@ namespace CleanCode
             set { height = value; }
         }
 
-        public Level(int width, int height, HeroTile hero = null)
+        public Level(int width, int height, int numPickups, HeroTile hero = null)
         {
             this.width = width;
             this.height = height;
 
-            tiles = new Tile[width, height];   
+            tiles = new Tile[width, height]; 
+            pickups = new PickupTile[numPickups];
+            for (int i = 0; i < numPickups; i++)
+            {
+                CreateTile(TileType.PickUp, GetRandomEmptyPosition());
+            }
             InitialiseTiles();
 
             if (hero == null)
@@ -61,7 +67,8 @@ namespace CleanCode
             Empty,
             Wall,
             Hero,
-            Exit
+            Exit,
+            PickUp
         }
 
         //Private CreateTile method
@@ -88,6 +95,18 @@ namespace CleanCode
                         HeroTile heroTile = new HeroTile(position,40,5);
                         tiles[position.X, position.Y] = heroTile;
                         return heroTile;
+                    }
+                case TileType.Exit:
+                    {
+                        ExitTile exitTile = new ExitTile(position);
+                        tiles[position.X, position.Y] = exitTile;
+                        return exitTile;
+                    }
+                case TileType.PickUp:
+                    {
+                        HealthPickupTile pickupTile = new HealthPickupTile(position);
+                        tiles[position.X, position.Y] = pickupTile;
+                        return pickupTile;
                     }
                 default:
                     {
@@ -146,6 +165,11 @@ namespace CleanCode
         public HeroTile Hero
         {
             get { return hero; }
+        }
+
+        public PickupTile[] Pickups 
+        { 
+            get { return pickups; } 
         }
 
         public void SwopTiles(Tile tile1, Tile tile2)

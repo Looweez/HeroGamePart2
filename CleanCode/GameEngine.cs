@@ -13,6 +13,7 @@ namespace CleanCode
         private Level level;
         private int numLevels;
         private Random random;
+        
 
         const int MIN_SIZE = 10;
         const int MAX_SIZE = 20;    
@@ -21,14 +22,21 @@ namespace CleanCode
         {
             this.numLevels = numLevels;
             random = new Random();
-            level = new Level(random.Next(MIN_SIZE,MAX_SIZE),random.Next(MIN_SIZE, MAX_SIZE));
+            level = new Level(random.Next(MIN_SIZE,MAX_SIZE),random.Next(MIN_SIZE, MAX_SIZE),1);
         }
 
         private bool MoveHero(Direction direction)
         {
             Tile  target = level.Hero.Vision[(int)direction];
 
-            if (target is EmptyTile)
+            if (target is PickupTile)
+            {
+                PickupTile.ApplyEffect(HeroTile hero);
+                level.SwopTiles(level.Hero, target);
+                level.Hero.UpdateVision(level);
+                return true;
+            }
+            else if (target is EmptyTile)
             {
                 level.SwopTiles(level.Hero, target);
                 level.Hero.UpdateVision(level);

@@ -55,8 +55,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameEngine.cs" />
+    <Compile Include="HealthPickupTile.cs" />
     <Compile Include="HeroTile.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="PickupTile.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
