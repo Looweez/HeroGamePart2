@@ -10,9 +10,15 @@ namespace CleanCode
     {
         bool moveSuccess;
         public CharacterTile[] targets;
+        private EnemyTile[] Enemies; // field(?)
 
         private int hitPoints;
         private int attackPower;
+
+        public EnemyTile[] enemies
+        {
+            get { return enemies;  }
+        }
 
         public EnemyTile(Position position, int hitPoints, int attackPower) : base(position, hitPoints, attackPower)
         {

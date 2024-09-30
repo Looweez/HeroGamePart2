@@ -22,6 +22,7 @@ namespace CleanCode
 
         private int width;
         private int height;
+        private int numberOfEnemies;
 
         private HeroTile hero;
 
@@ -37,7 +38,7 @@ namespace CleanCode
             set { height = value; }
         }
 
-        public Level(int width, int height, HeroTile hero = null)
+        public Level(int width, int height, int numberOfEnemies, HeroTile hero = null)
         {
             this.width = width;
             this.height = height;
@@ -61,7 +62,8 @@ namespace CleanCode
             Empty,
             Wall,
             Hero,
-            Exit
+            Exit,
+            Enemy,
         }
 
         //Private CreateTile method
@@ -88,6 +90,12 @@ namespace CleanCode
                         HeroTile heroTile = new HeroTile(position,40,5);
                         tiles[position.X, position.Y] = heroTile;
                         return heroTile;
+                    }
+                case TileType.Enemy:
+                    {
+                        HeroTile enemyTile = new HeroTile(position, 40, 5);
+                        tiles[position.X, position.Y] = enemyTile;
+                        return enemyTile;
                     }
                 default:
                     {
