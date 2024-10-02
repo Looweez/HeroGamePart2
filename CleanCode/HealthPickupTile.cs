@@ -14,6 +14,10 @@ namespace CleanCode
         }
 
         //weird ass implementation method between these two
+        public override Tile ApplyEffect(CharacterTile character) //error no body bc it is abstract
+        {
+            get;  //not sure if thats what they wanted
+        }
 
         public override char Display
         {

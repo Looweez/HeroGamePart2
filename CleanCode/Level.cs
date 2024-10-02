@@ -19,7 +19,7 @@ namespace CleanCode
     public class Level
     {
         public Tile[,] tiles;
-
+        private EnemyTile[] enemies;
         private PickupTile[] pickups;
         private int width;
         private int height;
@@ -38,13 +38,18 @@ namespace CleanCode
             set { height = value; }
         }
 
-        public Level(int width, int height, int numPickups, HeroTile hero = null)
+        public Level(int width, int height, int numEnemies, int numPickups, HeroTile hero = null)
         {
             this.width = width;
             this.height = height;
 
             tiles = new Tile[width, height]; 
+            enemies = new EnemyTile[numEnemies];
             pickups = new PickupTile[numPickups];
+            for (int i = 0; i < numEnemies; i++)
+            {
+                CreateTile(TileType.Enemy, GetRandomEmptyPosition());
+            }
             for (int i = 0; i < numPickups; i++)
             {
                 CreateTile(TileType.PickUp, GetRandomEmptyPosition());
@@ -68,6 +73,7 @@ namespace CleanCode
             Wall,
             Hero,
             Exit,
+            Enemy,
             PickUp
         }
 
@@ -101,6 +107,12 @@ namespace CleanCode
                         ExitTile exitTile = new ExitTile(position);
                         tiles[position.X, position.Y] = exitTile;
                         return exitTile;
+                    }
+                case TileType.Enemy:
+                    {
+                        GruntTile enemyTile = new GruntTile(position);
+                        tiles[position.X, position.Y] = enemyTile;
+                        return enemyTile;
                     }
                 case TileType.PickUp:
                     {
@@ -172,6 +184,11 @@ namespace CleanCode
             get { return pickups; } 
         }
 
+        public EnemyTile[] Enemies
+        {
+            get { return Enemies; }
+        }
+
         public void SwopTiles(Tile tile1, Tile tile2)
         {
             Tile tempObject = tile1;
@@ -183,6 +200,12 @@ namespace CleanCode
 
             tiles[tile1.Position.X, tile1.Position.Y] = tile1;
             tiles[tile1.Position.X, tile1.Position.Y] = tile2;
+        }
+
+        public void UpdateVision() //da fuk is an instance field
+        {
+            hero.UpdateVision(level); //idk man
+            
         }
 
         public override string ToString()
