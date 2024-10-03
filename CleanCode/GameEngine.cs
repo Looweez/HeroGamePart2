@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace CleanCode
 {
+    public enum GameState
+    {
+        InProgress,
+        Complete,
+        GameOver
+    }
+
     public class GameEngine
     {
         //Q.2.5
@@ -13,6 +20,7 @@ namespace CleanCode
         private Level level;
         private int numLevels;
         private Random random;
+        private GameState state = GameState.InProgress;
         
 
         const int MIN_SIZE = 10;
@@ -22,7 +30,7 @@ namespace CleanCode
         {
             this.numLevels = numLevels;
             random = new Random();
-            level = new Level(random.Next(MIN_SIZE,MAX_SIZE),random.Next(MIN_SIZE, MAX_SIZE),1);
+            level = new Level(random.Next(MIN_SIZE,MAX_SIZE),random.Next(MIN_SIZE, MAX_SIZE),3,1); //dunno if theres supposed to be 3 grunts/enemies
         }
 
         private bool MoveHero(Direction direction)
@@ -31,10 +39,23 @@ namespace CleanCode
 
             if (target is PickupTile)
             {
-                PickupTile.ApplyEffect(HeroTile hero);
+                PickupTile.ApplyEffect(HeroTile);
                 level.SwopTiles(level.Hero, target);
                 level.Hero.UpdateVision(level);
                 return true;
+            }
+            else if (target is ExitTile)
+            {
+                if (numLevels == numLevels) //if current level is last level
+                {
+                    state = GameState.Complete;
+                    return false;
+                }
+                else
+                {
+                    NextLevel();
+                    return true;
+                }
             }
             else if (target is EmptyTile)
             {
@@ -53,9 +74,27 @@ namespace CleanCode
             MoveHero(direction);
         }
 
+        public void NextLevel()
+        {
+            numLevels++;
+            HeroTile currentHero = level.Hero;
+            level = new Level(random.Next(MIN_SIZE, MAX_SIZE), random.Next(MIN_SIZE, MAX_SIZE), 3, 1, currentHero);
+        }
+
         public override string ToString()
         {
-            return level.ToString();
+            if (state == GameState.Complete)
+            {
+                return "You have completed the game!";
+            }
+            else if (state == GameState.InProgress)
+            {
+                return level.ToString();
+            }
+            //else if (state == GameState.GameOver)
+            //{
+
+            //}
         }
     }
 }

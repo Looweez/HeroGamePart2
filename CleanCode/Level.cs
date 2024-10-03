@@ -16,6 +16,7 @@ namespace CleanCode
         None = 4
     }
 
+
     public class Level
     {
         public Tile[,] tiles;
@@ -25,6 +26,7 @@ namespace CleanCode
         private int height;
 
         private HeroTile hero;
+        private ExitTile exit;
 
         public int Width
         { 
@@ -65,6 +67,8 @@ namespace CleanCode
                 hero.position = GetRandomEmptyPosition();
                 tiles[hero.position.X, hero.position.Y] = hero;
             }
+
+            CreateTile(TileType.Exit, GetRandomEmptyPosition());
         }
 
         public enum TileType
@@ -177,6 +181,11 @@ namespace CleanCode
         public HeroTile Hero
         {
             get { return hero; }
+        }
+
+        public ExitTile Exit
+        { 
+            get { return exit; } 
         }
 
         public PickupTile[] Pickups 
