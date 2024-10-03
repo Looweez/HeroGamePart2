@@ -20,7 +20,7 @@ namespace CleanCode
     public class Level
     {
         public Tile[,] tiles;
-        private EnemyTile[] enemies;
+        public EnemyTile[] enemies;
         private PickupTile[] pickups;
         private int width;
         private int height;
@@ -213,8 +213,11 @@ namespace CleanCode
 
         public void UpdateVision() //da fuk is an instance field
         {
-            hero.UpdateVision(level); //idk man
-            
+            hero.UpdateVision(hero); //idk man
+            for (int i = 0;  i < Enemies.Length; i++)
+            {
+                enemies[i].UpdateVision(enemies[i]); //idk either
+            }
         }
 
         public override string ToString()
