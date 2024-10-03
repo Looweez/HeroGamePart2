@@ -73,5 +73,16 @@ namespace CleanCode
                 }
             }
         }
+        public void Heal(int healPoints)
+        {
+            if (maxHitPoints >= hitPoints + healPoints)
+            {
+                hitPoints += healPoints;
+            }
+            else
+            {
+                hitPoints = maxHitPoints;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CleanCode
 {
-    enum Direction
+    public enum Direction
     {
         Up = 0,
         Down = 1,
@@ -20,12 +20,14 @@ namespace CleanCode
     {
         public Tile[,] tiles;
         private EnemyTile[] enemies;
+        private PickupTile[] pickups;
 
         private int width;
         private int height;
-        private int numberOfEnemies;
+        private int numEnemies;
 
         private HeroTile hero;
+        private ExitTile exit;
 
         public int Width
         { 
@@ -39,17 +41,22 @@ namespace CleanCode
             set { height = value; }
         }
 
-        public Level(int width, int height, int numberOfEnemies, HeroTile hero = null) ///you are here q2.3
+        public Level(int width, int height, int numEnemies, int numPickups, HeroTile hero = null) 
         {
             this.width = width;
             this.height = height;
 
             tiles = new Tile[width, height];
-            enemies = new EnemyTile[numberOfEnemies];
+            enemies = new EnemyTile[numEnemies];
+            pickups = new PickupTile[numPickups];
 
-            for (int i = 0; i < numberOfEnemies; i++)
+            for (int i = 0; i < numEnemies; i++)
             {
                 CreateTile(TileType.Enemy, GetRandomEmptyPosition());
+            }
+            for (int i = 0; i < numPickups; i++)
+            {
+                CreateTile(TileType.PickUp, GetRandomEmptyPosition());
             }
 
             InitialiseTiles();
@@ -63,6 +70,7 @@ namespace CleanCode
                 hero.position = GetRandomEmptyPosition();
                 tiles[hero.position.X, hero.position.Y] = hero;
             }
+            CreateTile(TileType.Exit, GetRandomEmptyPosition());
         }
 
         public enum TileType
@@ -72,6 +80,7 @@ namespace CleanCode
             Hero,
             Exit,
             Enemy,
+            PickUp,
         }
 
         //Private CreateTile method
@@ -104,6 +113,18 @@ namespace CleanCode
                         HeroTile enemyTile = new HeroTile(position, 40, 5);
                         tiles[position.X, position.Y] = enemyTile;
                         return enemyTile;
+                    }
+                case TileType.Exit:
+                    {
+                        ExitTile exitTile = new ExitTile(position);
+                        tiles[position.X, position.Y] = exitTile;
+                        return exitTile;
+                    }
+                case TileType.PickUp:
+                    {
+                        HealthPickupTile pickupTile = new HealthPickupTile(position);
+                        tiles[position.X, position.Y] = pickupTile;
+                        return pickupTile;
                     }
                 default:
                     {
@@ -164,6 +185,22 @@ namespace CleanCode
             get { return hero; }
         }
 
+        public ExitTile Exit
+        {
+            get { return exit; }
+        }
+
+        public PickupTile[] Pickups
+        {
+            get { return pickups; }
+        }
+
+        public EnemyTile[] Enemies
+        {
+            get { return Enemies; }
+        }
+
+
         public void SwopTiles(Tile tile1, Tile tile2)
         {
             Tile tempObject = tile1;
@@ -175,6 +212,12 @@ namespace CleanCode
 
             tiles[tile1.Position.X, tile1.Position.Y] = tile1;
             tiles[tile1.Position.X, tile1.Position.Y] = tile2;
+        }
+
+        public void UpdateVision() //da fuk is an instance field
+        {
+            hero.UpdateVision(level); //idk man
+
         }
 
         public override string ToString()

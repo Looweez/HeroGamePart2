@@ -32,7 +32,7 @@ namespace CleanCode
             set { moveSuccess = value; }
         }
 
-        public abstract bool GetMove(Tile tile)      //error
+        public abstract bool GetMove(Tile Out)      //error
         {
            return MoveSuccess;
         }
@@ -46,7 +46,7 @@ namespace CleanCode
 
         public abstract CharacterTile[] GetTargets()          //error
         {
-            get { return Targets; }
+            return targets = new CharacterTile[];
         }
 
         

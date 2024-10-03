@@ -30,5 +30,60 @@ namespace CleanCode
         {
 
         }
+
+        //attacking ------------------------------------------------------------
+        private void btnAtkUp_Click(object sender, EventArgs e)
+        {
+            TriggerAttack();
+            UpdateDisplay();
+        }
+
+        private void btnAtkRight_Click(object sender, EventArgs e)
+        {
+            TriggerAttack();
+            UpdateDisplay();
+        }
+
+        private void btnAtkDown_Click(object sender, EventArgs e)
+        {
+            TriggerAttack();
+            UpdateDisplay();
+        }
+
+        private void btnAtkLeft_Click(object sender, EventArgs e)
+        {
+            TriggerAttack();
+            UpdateDisplay();
+        }
+
+        //movement ------------------------------------------------------------
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            TriggerMovement();
+            UpdateDisplay();
+        }
+
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            TriggerMovement();
+            UpdateDisplay();
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            TriggerMovement();
+            UpdateDisplay();
+        }
+
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            TriggerMovement();
+            UpdateDisplay();
+        }
+
+        private void lblHeroStats_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
